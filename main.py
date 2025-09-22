@@ -113,12 +113,9 @@ async def start_handler(event):
         buttons = [
             [Button.inline("!➕ إنشاء مجموعات", data="create_groups")],
             [Button.url("👨‍💻 Div", f"https://t.me/{developer_username}")]
-        ]
-    else:
         buttons = [
-            [Button.inline("!➕ إنشاء مجموعات", data="create_groups")],
-            [Button.url("👨‍💻 Div
-            ", f"https://t.me/{developer_username}")]
+    [Button.inline("!➕ إنشاء مجموعات", data="create_groups")],
+    [Button.url("👨‍💻 Div", f"https://t.me/{developer_username}")]
         ]
 
     await event.respond("👋 أهلاً بك! اختر انشاء مجموعات :", buttons=buttons)
