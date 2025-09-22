@@ -1,2 +1,2 @@
-telethon
-aiohttp
+telethon==1.29.0
+asyncio
