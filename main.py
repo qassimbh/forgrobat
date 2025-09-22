@@ -109,14 +109,16 @@ async def start_handler(event):
         return
 
     # أزرار
-    if user_id == developer_id:
-        buttons = [
-            [Button.inline("!➕ إنشاء مجموعات", data="create_groups")],
-            [Button.url("👨‍💻 Div", f"https://t.me/{developer_username}")]
-        buttons = [
-    [Button.inline("!➕ إنشاء مجموعات", data="create_groups")],
-    [Button.url("👨‍💻 Div", f"https://t.me/{developer_username}")]
-        ]
+if user_id == developer_id:
+    buttons = [
+        [Button.inline("➕ إنشاء مجموعات", data="create_groups")],
+        [Button.url("👨‍💻 Div", f"https://t.me/{developer_username}")]
+    ]
+else:
+    buttons = [
+        [Button.inline("!➕ إنشاء مجموعات", data="create_groups")],
+        [Button.url("👨‍💻 Div", f"https://t.me/{developer_username}")]
+    ]
 
     await event.respond("👋 أهلاً بك! اختر انشاء مجموعات :", buttons=buttons)
 
