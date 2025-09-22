@@ -8,9 +8,9 @@ api_id = int(os.environ.get("API_ID"))
 api_hash = os.environ.get("API_HASH")
 bot_token = os.environ.get("BOT_TOKEN")
 
-force_channel = os.environ.get("FORCE_CHANNEL")  # بدون @
-developer_username = os.environ.get("DEVELOPER_USERNAME")  # بدون @
-developer_id = int(os.environ.get("DEVELOPER_ID"))  # ID حساب المطور
+force_channel = os.environ.get("Qd3Qd")  # بدون @
+developer_username = os.environ.get("E2E12")  # بدون @
+developer_id = int(os.environ.get("5581457665"))  # ID حساب المطور
 
 admin_bot_username = os.environ.get("ADMIN_BOT_USERNAME", "czbbbot")
 
