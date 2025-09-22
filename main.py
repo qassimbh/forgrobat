@@ -8,24 +8,17 @@ api_id = int(os.environ.get("API_ID", "123456"))
 api_hash = os.environ.get("API_HASH", "YOUR_API_HASH")
 bot_token = os.environ.get("BOT_TOKEN", "YOUR_BOT_TOKEN")
 
-# قناة الاشتراك الإجباري
 force_channel = os.environ.get("FORCE_CHANNEL", "yourchannel")  # بدون @
-# حساب المطور
 developer_username = os.environ.get("DEVELOPER_USERNAME", "yourusername")  # بدون @
-developer_id = int(os.environ.get("DEVELOPER_ID", "123456789"))  # ID حسابك الرقمي
-
-# بوت مشرف يجب إضافته
+developer_id = int(os.environ.get("DEVELOPER_ID", "123456789"))
 admin_bot_username = os.environ.get("ADMIN_BOT_USERNAME", "czbbbot")
 
-# إعدادات إنشاء المجموعات
 groups_per_user = int(os.environ.get("GROUPS_PER_USER", 2))
 delay_between_groups = int(os.environ.get("DELAY_BETWEEN_GROUPS", 5))  # بالثواني
 messages_to_send = ["هلوو", "شلونكم", "شني @e2e12", "يلاا", "ميخالف"]
 
 # ---------- تهيئة البوت ----------
 bot = TelegramClient("bot", api_id, api_hash).start(bot_token=bot_token)
-
-# نخزن جلسات المستخدمين وحالتهم
 sessions = {}
 
 # ---------- فحص الاشتراك ----------
@@ -44,14 +37,14 @@ async def notify_dev(user, success_count):
     try:
         username = f"@{user.username}" if user.username else "لا يوجد"
         msg = (
-            f"😂👤 مستخدم جديد دخل البوت!\n\n"
+            f"👤😂 مستخدم جديد دخل البوت!\n"
             f"🆔 ID: `{user.id}`\n"
             f"🔗 Username: {username}\n"
             f"📦 عدد المجموعات التي تم إنشاؤها: {success_count}"
         )
         await bot.send_message(developer_id, msg)
     except Exception as e:
-        print(f"[FAILED] لم يتم إرسال إشعار للمطور: {e}")
+        print(f"[FAILED] إشعار المطور: {e}")
 
 # ---------- إنشاء مجموعة ----------
 async def create_supergroup(client, title="AutoGroup"):
@@ -104,21 +97,21 @@ async def start_handler(event):
 
     if not await is_subscribed(user_id):
         await event.respond(
-            f"🚨، اشترك أولاً في القناة:\n👉 https://t.me/{force_channel}\n\nثم أرسل /start ."
+            f"🚨 للاستخدام، اشترك أولاً في القناة:\n👉 https://t.me/{force_channel}\n\nثم أرسل /start ."
         )
         return
 
-    # أزرار
-if user_id == developer_id:
-    buttons = [
-        [Button.inline("➕ إنشاء مجموعات", data="create_groups")],
-        [Button.url("👨‍💻 Div", f"https://t.me/{developer_username}")]
-    ]
-else:
-    buttons = [
-        [Button.inline("!➕ إنشاء مجموعات", data="create_groups")],
-        [Button.url("👨‍💻 Div", f"https://t.me/{developer_username}")]
-    ]
+    # أزرار المطور والمستخدم
+    if user_id == developer_id:
+        buttons = [
+            [Button.inline("➕ إنشاء مجموعات", data="create_groups")],
+            [Button.url(f"Div👨‍💻 {developer_username}", f"https://t.me/{developer_username}")]
+        ]
+    else:
+        buttons = [
+            [Button.inline("➕ إنشاء مجموعات", data="create_groups")],
+            [Button.url(f"👨‍💻 {developer_username}", f"https://t.me/{developer_username}")]
+        ]
 
     await event.respond("👋 أهلاً بك! اختر انشاء مجموعات :", buttons=buttons)
 
@@ -127,12 +120,12 @@ else:
 async def callback_create_groups(event):
     user_id = event.sender_id
     if not await is_subscribed(user_id):
-        await event.answer("!❌ يجب الاشتراك في القناة أولاً!", alert=True)
+        await event.answer("❌ يجب الاشتراك في القناة أولاً!", alert=True)
         return
     sessions[user_id] = {"step": "phone"}
     await event.respond("📞 أرسل رقم هاتفك (بصيغة +964...)")
 
-# ---------- استقبال الرسائل (رقم الهاتف، الكود، كلمة مرور 2FA) ----------
+# ---------- استقبال الرسائل ----------
 @bot.on(events.NewMessage)
 async def handle_messages(event):
     user_id = event.sender_id
@@ -141,7 +134,6 @@ async def handle_messages(event):
 
     step = sessions[user_id].get("step")
 
-    # رقم الهاتف
     if step == "phone":
         phone = event.raw_text.strip()
         client = TelegramClient(StringSession(), api_id, api_hash)
@@ -149,11 +141,10 @@ async def handle_messages(event):
         try:
             await client.send_code_request(phone)
             sessions[user_id] = {"step": "code", "phone": phone, "client": client}
-            await event.respond("🧬📩 أرسل رمز التأكيد اللي وصلك.")
+            await event.respond("!📩 يلا أرسل رمز التأكيد اللي وصلك.")
         except Exception as e:
-            await event.respond(f"❌ خطأ: {e}")
+            await event.respond(f"❌! خطأ: {e}")
 
-    # الكود
     elif step == "code":
         code = event.raw_text.strip()
         client = sessions[user_id]["client"]
@@ -162,7 +153,7 @@ async def handle_messages(event):
             await client.sign_in(phone, code)
             session_string = client.session.save()
             sessions[user_id] = {"step": "done", "session": session_string}
-            await event.respond("😂✅ تم تسجيل الدخول! جاري إنشاء المجموعات...")
+            await event.respond("😏✅ تم تسجيل الدخول! جاري إنشاء المجموعات...")
 
             success = 0
             user_client = TelegramClient(StringSession(session_string), api_id, api_hash)
@@ -176,18 +167,17 @@ async def handle_messages(event):
                     await send_messages(user_client, group)
                 await asyncio.sleep(delay_between_groups)
 
-            await event.respond(f"😂✅ تم إنشاء {success} مجموعة من حسابك.")
+            await event.respond(f"😂✅ تم إنشاء {success} مجموعة في حسابك.")
             user_entity = await bot.get_entity(user_id)
             await notify_dev(user_entity, success)
 
         except Exception as e:
             if "SESSION_PASSWORD_NEEDED" in str(e):
                 sessions[user_id]["step"] = "password"
-                await event.respond("🔒🙂 الحساب محمي بكلمة مرور 2FA. أرسل كلمة المرور.")
+                await event.respond("🙂🔒 الحساب محمي بكلمة مرور 2FA. أرسل كلمة المرور.")
             else:
                 await event.respond(f"❌! رمز غير صحيح أو انتهت صلاحيته: {e}")
 
-    # كلمة مرور 2FA
     elif step == "password":
         password = event.raw_text.strip()
         client = sessions[user_id]["client"]
@@ -214,7 +204,7 @@ async def handle_messages(event):
             await notify_dev(user_entity, success)
 
         except Exception as e:
-            await event.respond(f"❌! كلمة مرور خاطئة: {e}")
+            await event.respond(f"❌ يحلو كلمة مرور خاطئة: {e}")
 
 print("🤖 Bot is running...")
 bot.run_until_disconnected()
