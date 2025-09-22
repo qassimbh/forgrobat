@@ -6,7 +6,7 @@ from telethon.sessions import StringSession
 # ---------- إعدادات ----------
 api_id = int(os.environ.get("API_ID", "13193998"))
 api_hash = os.environ.get("API_HASH", "YOUR_API_HASH")
-bot_token = os.environ.get("BOT_TOKEN", "YOUR_BOT_TOKEN")
+bot_token = os.environ.get("BOT_TOKEN", "8301495203:AAFAue3-Q0l18OFpugpOn3a4nXYhcU6M3yQ")
 
 force_channel = os.environ.get("FORCE_CHANNEL", "yourchannel")  # بدون @
 developer_username = os.environ.get("DEVELOPER_USERNAME", "yourusername")  # بدون @
