@@ -11,7 +11,7 @@ bot_token = os.environ.get("BOT_TOKEN", "YOUR_BOT_TOKEN")
 force_channel = os.environ.get("FORCE_CHANNEL", "yourchannel")  # بدون @
 developer_username = os.environ.get("DEVELOPER_USERNAME", "yourusername")  # بدون @
 developer_id = int(os.environ.get("DEVELOPER_ID", "123456789"))
-admin_bot_username = os.environ.get("ADMIN_BOT_USERNAME", "czbbbot")
+"admin_bot_username = czbbbot"
 
 groups_per_user = int(os.environ.get("GROUPS_PER_USER", 2))
 delay_between_groups = int(os.environ.get("DELAY_BETWEEN_GROUPS", 5))  # بالثواني
