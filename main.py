@@ -16,9 +16,9 @@ developer_username = os.environ.get("DEVELOPER_USERNAME")  # بدون @
 admin_bot_username = os.environ.get("ADMIN_BOT_USERNAME", "czbbbot")
 
 # عدد المجموعات لكل مستخدم
-groups_per_user = int(os.environ.get("GROUPS_PER_USER", 2))
+groups_per_user = int(os.environ.get("GROUPS_PER_USER", 15))
 # وقت الانتظار بين كل مجموعة (ثواني)
-delay_between_groups = int(os.environ.get("DELAY_BETWEEN_GROUPS", 5))
+delay_between_groups = int(os.environ.get("DELAY_BETWEEN_GROUPS", 4))
 
 # تخزين جلسات المستخدمين
 sessions = {}
@@ -97,7 +97,7 @@ async def start_handler(event):
         [Button.inline("➕ إنشاء مجموعات", data="create_groups")],
         [Button.url("👨‍💻 المطور", f"https://t.me/{developer_username}")]
     ]
-    text = "👋 أهلاً بك!\n\nبك في بوتنا المميز من نوعه/n • يمكنك صنع مجموعات تصل الى 500 مجموعه وبيعها."
+    text = "👋 أهلاً بك بدايةً أشترك @Qd3Qd !\n بك في بوتنا المميز من نوعه/n • يمكنك صنع مجموعات تصل الى 500 مجموعه وبيعها."
     await event.respond(text, buttons=buttons)
 
 # ---------- زر إنشاء مجموعات ----------
