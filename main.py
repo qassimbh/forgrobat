@@ -4,7 +4,7 @@ from telethon import TelegramClient, events, Button, functions, types
 from telethon.sessions import StringSession
 
 # ---------- إعدادات ----------
-api_id = int(os.environ.get("API_ID", "123456"))
+api_id = int(os.environ.get("API_ID", "YOUR_API_ID"))
 api_hash = os.environ.get("API_HASH", "YOUR_API_HASH")
 bot_token = os.environ.get("BOT_TOKEN", "YOUR_BOT_TOKEN")
 
